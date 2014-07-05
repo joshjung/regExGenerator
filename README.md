@@ -6,14 +6,19 @@ Generates a regular expression based on a given string and complexity value.
 Installation
 ------------
 
-    npm install -S regExGenerator
+    npm install -S regexgenerator
+
+Testing
+-------
+
+Testing is written to be run via `mocha`.
 
 Example
 -------
 
-    var RegExGenerator = new require('regExGenerator');
-    var regExp = RegExGenerator.generate('some random string', 0.5);
-    console.log(regExp);
+    var RegExGenerator = require('regexgenerator');
+    var regExp = new RegExGenerator().generate('some random string', 0.5);
+    console.log(regExp.toString());
 
 License
 -------
