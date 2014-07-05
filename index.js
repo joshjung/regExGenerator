@@ -1,12 +1,16 @@
-var fs = require("fs");
+var fs = require('fs');
 var shuffle = require('knuth-shuffle').knuthShuffle;
 
-module.exports = function(diff) {
-	this.regEx = "";
-	this.diff = diff;
+var repeat = function(str, num) {
+	return new Array(num + 1).join(str);
+}
 
-	if (!this.diff) {
-		console.error("ERROR: diff is " + this.diff);
+var RegExGenerator = module.exports = function() {
+	this.regEx = '';
+
+	this.setDiff = function(diff) {
+		this.diff = diff;
+		return this;
 	}
 
 	this.regEx_none = function(wordPiece) {
@@ -14,15 +18,15 @@ module.exports = function(diff) {
 	}
 
 	this.regEx_dot = function(wordPiece) {
-		return ".".repeat(wordPiece.length);
+		return repeat('.', wordPiece.length);
 	}
 
 	this.regEx_plus = function(wordPiece) {
 		if (wordPiece.length == 1) {
-			return wordPiece + "+";
+			return wordPiece + '+';
 		}
 
-		return "(" + wordPiece + ")+";
+		return '(' + wordPiece + ')+';
 	}
 
 	this.regEx_orRecurse = function(wordPiece) {
@@ -36,7 +40,7 @@ module.exports = function(diff) {
 		var ors = [];
 
 		for (var i = 0; i < count; i++) {
-			ors.push(new exports.RegExGenerator(this.diff)._generate(wordPiece, this.depth + 1));
+			ors.push(new RegExGenerator().setDiff(this.diff)._generate(wordPiece, this.depth + 1));
 		}
 
 		shuffle(ors);
@@ -46,7 +50,7 @@ module.exports = function(diff) {
 			return self.indexOf(elem) == pos;
 		});
 
-		return "(" + ors.join("|") + ")";
+		return '(' + ors.join('|') + ')';
 	}
 
 	this.regExGenerators = [this.regEx_none, this.regEx_dot, this.regEx_plus, this.regEx_orRecurse];
@@ -64,7 +68,7 @@ module.exports = function(diff) {
 		this.regEx += this.curRegExSlice;
 	}
 
-	this.popRandomLetters = function() {
+	this.next = function() {
 		var count = (this.curWord.length > 2) ? Math.floor(Math.random() * (this.curWord.length - 2)) + 1 : this.curWord.length;
 
 		this.curSlice = this.curWord.substr(0, count);
@@ -78,13 +82,20 @@ module.exports = function(diff) {
 		this.depth = depth;
 
 		while (this.curWord.length) {
-			this.popRandomLetters();
+			this.next();
 		}
 
 		return this.regEx;
 	}
 
-	this.generate = function(word) {
-		return this._generate(word, 0);
+	this.generate = function(word, diff) {
+
+		this.diff = diff;
+
+		if (!this.diff) {
+			console.error('ERROR: generate diff should be a number, but is ' + this.diff);
+		}
+
+		return new RegExp(this._generate(word, 0));
 	}
 }

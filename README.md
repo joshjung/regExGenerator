@@ -3,15 +3,20 @@ regExGenerator
 
 Generates a regular expression based on a given string and complexity value.
 
+Installation
+------------
+
+    npm install -S regExGenerator
+
 Example
-=======
+-------
 
     var RegExGenerator = new require('regExGenerator');
     var regExp = RegExGenerator.generate('some random string', 0.5);
     console.log(regExp);
 
 License
-=======
+-------
 
 The MIT License (MIT)
 

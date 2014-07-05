@@ -2,7 +2,6 @@
 	"name": "RegExGenerator",
 	"description": "Generates a regular expression for a given string and a provided complexity value (0-1).",
 	"version": "0.0.1",
-	"private": false,
 	"main": "index.js",
 	"files": ["index.js"],
 	"dependencies": {
