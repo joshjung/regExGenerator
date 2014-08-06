@@ -13,6 +13,35 @@ Testing
 
 Testing is written to be run via `mocha`.
 
+Example from testing output:
+
+    1: /four\s+score\s+years\s+ago/
+          ✓ /four\s+score\s+years\s+ago/ should matche "four score years ago" 
+        generate("four score years ago",0.2)
+    2: /four\s+..ore\s+years\s+ago/
+          ✓ /four\s+..ore\s+years\s+ago/ should matche "four score years ago" 
+        generate("four score years ago",0.30000000000000004)
+    3: /fo..\s+sco..\s+years\s+.go/
+          ✓ /fo..\s+sco..\s+years\s+.go/ should matche "four score years ago" 
+        generate("four score years ago",0.4)
+    4: /....\s+(sc)+.(re)+\s+(yea)+rs\s+ago/
+          ✓ /....\s+(sc)+.(re)+\s+(yea)+rs\s+ago/ should matche "four score years ago" 
+        generate("four score years ago",0.5)
+    5: /.our\s+..o..\s+yea(rs)+\s+a+(go)+/
+          ✓ /.our\s+..o..\s+yea(rs)+\s+a+(go)+/ should matche "four score years ago" 
+        generate("four score years ago",0.6)
+    6: /.(.|o|o+)..\s+(sco)+re\s+y+ears\s+a(go)+/
+          ✓ /.(.|o|o+)..\s+(sco)+re\s+y+ears\s+a(go)+/ should matche "four score years ago" 
+        generate("four score years ago",0.7)
+    7: /..[a-z][a-z]\s+(sco)+..\s+y(ea|(ea)+)rs\s+a+(go)+/
+          ✓ /..[a-z][a-z]\s+(sco)+..\s+y(ea|(ea)+)rs\s+a+(go)+/ should matche "four score years ago" 
+        generate("four score years ago",0.7999999999999999)
+    8: /....\s+(.co|sco|s(co)+)(re)+\s+(yea)+(rs)+\s+[a-z](go)+/
+          ✓ /....\s+(.co|sco|s(co)+)(re)+\s+(yea)+(rs)+\s+[a-z](go)+/ should matche "four score years ago" 
+        generate("four score years ago",0.8999999999999999)
+    9: /....\s+(..|[a-z][a-z]).(re)+\s+y+ea(rs)+\s+a+go/
+          ✓ /....\s+(..|[a-z][a-z]).(re)+\s+y+ea(rs)+\s+a+go/ should matche "four score years ago" 
+
 Example
 -------
 
