@@ -8,12 +8,11 @@ var generators = [
 	new(require('./gens/gen_orRecurse').gen)(this)
 ];
 
-console.log(generators);
-
-var RegExGenerator = function(diff) {
+var RegExGenerator = function(diff, indeterminateChars, originalWord) {
 	this.regEx = '';
-	this.diff = diff !== undefined ? diff : 0.5;
-	this.indeterminateChars = 0;
+	this.diff = (diff !== undefined ? diff : 0.5);
+	this.indeterminateChars = (indeterminateChars !== undefined ? indeterminateChars : 0);
+	this.originalWord = (originalWord !== undefined ? originalWord : undefined);
 }
 
 RegExGenerator.prototype = {
@@ -42,11 +41,9 @@ RegExGenerator.prototype = {
 		this.genNextRegExSlice();
 	},
 	_generate: function(word, depth) {
-		indeterminateChars = 0;
-
 		debug('generating for ' + word + ":" + depth);
 
-		this.curWord = this.originalWord = word;
+		this.curWord = word;
 		this.depth = depth;
 
 		while (this.curWord.length) {
@@ -57,6 +54,7 @@ RegExGenerator.prototype = {
 	},
 	generate: function(word, diff) {
 		this.diff = diff;
+		this.originalWord = word;
 
 		if (!this.diff) {
 			console.error('ERROR: generate diff should be a number, but is ' + this.diff);
@@ -65,7 +63,7 @@ RegExGenerator.prototype = {
 		return new RegExp(this._generate(word, 0));
 	},
 	clone: function() {
-		return new RegExGenerator(this.diff);
+		return new RegExGenerator(this.diff, this.indeterminateChars, this.originalWord);
 	}
 }
 

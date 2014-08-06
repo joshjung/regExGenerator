@@ -13,7 +13,7 @@ Gen_OrRecurse.prototype.generate = function(parent, partial, depth) {
 		ors = [];
 
 	for (var i = 0; i < count; i++) {
-		ors.push(new parent.clone()._generate(partial, depth + 1));
+		ors.push(parent.clone()._generate(partial, depth + 1));
 	}
 
 	shuffle(ors);

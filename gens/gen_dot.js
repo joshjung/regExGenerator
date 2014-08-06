@@ -6,25 +6,20 @@ const MAX_INDETERMINATE_CHARS = 0.25;
 
 var repeat = function(str, num) {
 	return new Array(num + 1).join(str);
-}
+};
 
 var Gen_Dot = function() {
-	this.indeterminateChars = 0;
 	return this;
 };
 
-Gen_Dot.prototype.reset = function() {
-	this.indeterminateChars = 0;
-};
-
-Gen_Dot.prototype.generate = function(parentGenerator, partial, depth) {
-	if (this.indeterminateChars + partial.length >= MAX_INDETERMINATE_CHARS) {
+Gen_Dot.prototype.generate = function(parent, partial, depth) {
+	if (parent.indeterminateChars + partial.length >= MAX_INDETERMINATE_CHARS * parent.originalWord.length) {
 		return 0;
 	}
 
-	this.indeterminateChars += wordPiece.length;
+	parent.indeterminateChars += partial.length;
 
-	return repeat('.', wordPiece.length);
+	return repeat('.', partial.length);
 };
 
 module.exports = {

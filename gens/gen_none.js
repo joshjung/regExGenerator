@@ -2,7 +2,7 @@ var Gen_None = function() {
 	return this;
 };
 
-Gen_None.prototype.generate = function(parentGenerator, partial, depth) {
+Gen_None.prototype.generate = function(parent, partial, depth) {
 	return partial;
 };
 
