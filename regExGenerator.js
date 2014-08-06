@@ -5,7 +5,9 @@ var generators = [
 	new(require('./gens/gen_none').gen)(this),
 	new(require('./gens/gen_dot').gen)(this),
 	new(require('./gens/gen_plus').gen)(this),
-	new(require('./gens/gen_orRecurse').gen)(this)
+	new(require('./gens/gen_orRecurse').gen)(this),
+	new(require('./gens/gen_charRange').gen)(this),
+	new(require('./gens/gen_escapee').gen)(this)
 ];
 
 var RegExGenerator = function(diff, indeterminateChars, originalWord) {
@@ -13,6 +15,9 @@ var RegExGenerator = function(diff, indeterminateChars, originalWord) {
 	this.diff = (diff !== undefined ? diff : 0.5);
 	this.indeterminateChars = (indeterminateChars !== undefined ? indeterminateChars : 0);
 	this.originalWord = (originalWord !== undefined ? originalWord : undefined);
+	this.__defineGetter__('maxIndeterminateChars', function() {
+		return 0.33 * this.originalWord.length;
+	});
 }
 
 RegExGenerator.prototype = {
@@ -52,6 +57,9 @@ RegExGenerator.prototype = {
 
 		return this.regEx;
 	},
+	reset: function() {
+		this.regEx = '';
+	},
 	generate: function(word, diff) {
 		this.diff = diff;
 		this.originalWord = word;
@@ -60,7 +68,13 @@ RegExGenerator.prototype = {
 			console.error('ERROR: generate diff should be a number, but is ' + this.diff);
 		}
 
-		return new RegExp(this._generate(word, 0));
+		var words = word.split(/\s+/);
+		var fin = '';
+		for (var i = 0; i < words.length; i++) {
+			this.reset();
+			fin += this._generate(words[i], 0) + ((i < words.length - 1) ? '\\s+' : '');
+		}
+		return new RegExp(fin);
 	},
 	clone: function() {
 		return new RegExGenerator(this.diff, this.indeterminateChars, this.originalWord);
