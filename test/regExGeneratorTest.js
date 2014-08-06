@@ -1,13 +1,15 @@
 var assert = require('assert');
 var RegExGenerator = require('../RegExGenerator');
+var i = 0;
 
 describe('RegExGenerator', function() {
-	['this', 'is', 'a', 'bunch', 'of', 'words', 'to', 'test', 'the framework', 'four score years ago'].forEach(function(word) {
-		for (var i = 0; i < 1; i += 0.1) {
-			describe('generate("' + word + '", 1)', function() {
-				it('should return a regular expression that matches "' + word + '"', function() {
-					var regExp = new RegExGenerator().generate(word, 1);
-					console.log(regExp.toString());
+	['bazooka', 'halfwit', 'something', 'partial', 'node.js', 'yay', 'to', 'test', 'the framework', 'four score years ago'].forEach(function(word) {
+		for (i = 0.1; i < 0.9; i += 0.1) {
+			describe('generate("' + word + '",' + i + ')', function() {
+				var regExp = new RegExGenerator().generate(word, i);
+				var j = i;
+				it(regExp.toString() + ' should matche "' + word + '"', function() {
+					console.log(Math.round(j * 10) + ': ' + regExp.toString());
 					assert.equal(regExp.test(word), true);
 				})
 			});
