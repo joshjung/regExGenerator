@@ -1,5 +1,5 @@
 var assert = require('assert');
-var RegExGenerator = require('../index.js');
+var RegExGenerator = require('../RegExGenerator');
 
 describe('RegExGenerator', function() {
 	['this', 'is', 'a', 'bunch', 'of', 'words', 'to', 'test', 'the framework'].forEach(function(word) {
